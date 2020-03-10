@@ -1,0 +1,12 @@
+{% extends 'nav.html' %}
+{% block content %}
+    <div>
+        <h1>Hellodawdad
+        wadawdwd</h1>
+    </div>
+    <a href="{% url 'create_post' %}">
+{% if perms.post.add_post %}
+<button type="button" class="btn btn-info">เขียนบทความใหม่</button>
+{% endif %}
+</a>
+{% endblock content %}
