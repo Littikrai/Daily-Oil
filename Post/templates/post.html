@@ -1,12 +1,66 @@
 {% extends 'nav.html' %}
 {% block content %}
-    <div>
-        <h1>Hellodawdad
-        wadawdwd</h1>
+    <form style="margin-top: 20px;" method="GET" action="{% url 'post' %}">
+        <div class="form-row" >
+            <div class="col-6">
+            <input type="text" class="form-control" placeholder="Search" name="inputSearch">
+            </div>
+            <div class="col-3">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2"> ค้นหา</button>
+            </div>
+             <div class="col-3  text-right">
+                <a href="{% url 'create_post' %}">    
+                {% if perms.post.add_post %}
+                    <button type="button" class="btn btn-info">เขียนบทความใหม่</button>
+                {% endif %}
+                </a>
+            </div>
+        </div>
+    </form>
+   
+    <div class="row">
+    {% for p in post %}
+        {% if p.status == 'S'%}
+        <div class="col-sm-3" style="margin-top:13px">
+            <div class="card" style="height: 15em;">
+                <div class="card-body">
+                    <h5 class="card-title">{{p.title}}</h5>
+                    <p class="card-text" style="
+                    display: block;
+                    width: 15em;
+                    height: 6em;
+                    overflow: hidden;
+                    text-overflow: ellipsis;"
+                    >{{p.content}}</p>
+                    <a href="{% url 'detail' post_id=p.id %}" class="btn btn-primary">อ่านบทความ</a>                    
+                </div>
+                {% if perms.post.add_post %}
+                <a href="{% url 'hide' post_id=p.id status='H' %}" class="position-absolute" style="right: 5px;">ซ่อนโพสต์</a>
+                {% endif %}    
+                <span class="position-absolute" style="right: 5px; bottom: 5px;">{{ Comment.objects.filter(p.id).count() }}คอมเม้น</span>
+            </div>            
+        </div>
+        {% endif %}
+        {% if p.status == 'H' and perms.post.add_post %}
+            <div class="col-sm-3" style="margin-top:13px; opacity: 60%;">
+                <div class="card" style="height: 15em;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{p.title}}</h5>
+                        <p class="card-text" style="
+                        display: block;
+                        width: 15em;
+                        height: 6em;
+                        overflow: hidden;
+                        text-overflow: ellipsis;"
+                        >{{p.content}}</p>
+                        <a href="{% url 'detail' post_id=p.id %}" class="btn btn-primary">อ่านบทความ</a>                    
+                    </div>
+                    {% if perms.post.add_post %}
+                    <a href="{% url 'hide' post_id=p.id status='S' %}" class="position-absolute" style="right: 5px;">เผยแพร่บทความ</a>
+                    {% endif %}
+                </div>            
+            </div>
+        {% endif %}
+    {% endfor %}    
     </div>
-    <a href="{% url 'create_post' %}">
-{% if perms.post.add_post %}
-<button type="button" class="btn btn-info">เขียนบทความใหม่</button>
-{% endif %}
-</a>
 {% endblock content %}

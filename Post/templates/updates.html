@@ -1,0 +1,28 @@
+{% extends 'nav.html' %}
+{% block content %}
+    <div>
+       <h1>
+        เขียนบทความใหม่
+       </h1> 
+       <form action="{% url 'updates' post_id=post.id %}" method="post">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-12">
+                <label for="section">Title:</label>
+                <input type="text" class="form-control" name="title" id="title required" value="{{post.title}}">
+            </div>
+            <div class="form-group col-12"> 
+                <textarea class="form-control" rows="7" aria-label="With textarea"  name="content">{{post.content}}</textarea>
+            </div>
+            <div class="input-group" style="margin-bottom:20px;">               
+            <div class="input-group-prepend" style="margin-right: 5px;">
+                <div class="input-group-text">  
+                    <input name="status" type="checkbox"  aria-label="Radio button for following text input">
+                </div>
+            </div>
+            <label for="section">ซ่อนบทความ</label>
+            </div>
+        <button type="submit" class="btn btn-info">ยืนยัน</button>
+    </form>
+    </div>
+{% endblock %}

@@ -10,14 +10,16 @@
         <script src="{% static 'js/bootstrap.js' %}"></script>
     </head>
     <body>
-    <nav class="navbar" style="background-color: #9c88ff;">
-      <a href="" class="navbar-brand">
-        <img src="{% static 'img/icon.png'%}" width="60" height="60" class="d-inline-block align-top" alt="">
-      </a>
+    <nav class="navbar navbar-light" style="background-color: #9c88ff;">      
+        <a href="{% url 'post' %}" class="navbar-brand">
+          <img src="{% static 'img/icon.png'%}" width="60" height="60" class="d-inline-block align-top" alt="">
+          <span style="position: absolute; top: 1.6em; left: 90px; color: white;">Daily Oil</span>  
+        </a> 
+      
         <ul class="nav justify-content-end">
         {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" style="color: white;" href="{% url 'logout' %}">logout</a>
+            <a class="nav-link" style="color: white;" href="{% url 'logout' %}">Logout</a>
           </li>
         {% else %}
           <li class="nav-item " >

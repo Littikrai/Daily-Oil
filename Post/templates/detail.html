@@ -1,0 +1,42 @@
+{% extends 'nav.html' %}
+{% block content %}
+    <div class="card" style="margin-top: 20px;">
+        <div class="card-body">
+            <h5 class="card-title">{{post.title}}</h5>
+            <p class="card-text">{{post.content}}</p>
+            {% if perms.post.edit_post %}
+            <div class="text-right">
+                <a href="{% url 'updates'  post_id=post.id %}" class="card-link">แก้ไขโพสต์</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div>
+        <h3 style="margin-top: 20px;">ความคิดเห็น</h3>
+        {% for c in comment %}
+        <div class="card" style="margin-top: 8px;">
+            {% if c.user_id == user and user.is_authenticated or user.is_superuser %}
+            <a href="{% url 'delete' comment_id=c.id post_id=post.id %}" class="position-absolute" style="right: 5px; color:red">Delete</a>
+            {% endif %}
+            <div class="card-body">
+              <p class="card-text" style="">{{c.content}}</p>
+              <p class="text-muted text-right">โดย: {{c.user_id}} เมื่อ: {{c.create_time}}</p>
+            </div>
+        </div>
+        {% endfor %}
+        {% if user.is_authenticated %}
+        <form style="margin-top: 20px;" method="post" action="{% url 'add_comment' post_id=post.id %}">
+        {% csrf_token %}
+            <div class="form-row" >
+                <div class="col-12">
+                <textarea class="form-control" rows="3" aria-label="With textarea"  name="content"></textarea>
+                </div>
+                <div class="col-12" style="margin-top: 20px;">
+                    <button class="btn btn-outline-secondary " type="submit" id="button-addon2"> ยืนยัน</button>
+                </div>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+{% endblock%}
